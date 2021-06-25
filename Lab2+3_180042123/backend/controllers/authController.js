@@ -57,8 +57,22 @@ const getLogin = (req, res) => {
     res.sendFile("login.html", { root: "./views" });
 };
 
-const postLogin = (req, res) => {
-    console.log(req.body);
+const postLogin = async (req, res) => {
+    const { email, password } = req.body;
+
+    const user = await userSchema.findOne({ email });
+    if (!user) {
+        alert('Email not found')
+        return res.redirect('/login')
+    }
+
+    const checkPass = await bcrypt.compare(password, user.password);
+    if (!checkPass) {
+        alert('Password incorrect')
+        return res.redirect('/login');
+    }
+
+    res.json({ message: "Logged in" });
 };
 
 const getDashboard = (req, res) => {

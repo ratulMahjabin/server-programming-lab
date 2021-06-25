@@ -17,6 +17,10 @@ app.get("/register", (req, res) => {
     res.send("<H1>Register Page</H1>");
 });
 
+app.post('/', (req, res) => {
+    res.send("<H1> Home page- post req </H1>");
+});
+
 app.use((req, res) => {
     res.send("Page doesn't exist!");
 });

@@ -17,7 +17,7 @@ router.get('/', getHomePage);
 
 router.get('/dashboard', getDashboard);
 
-router.get('/register', getLogin);
+router.get('/login', getLogin);
 
 router.get('/register', getRegister);
 router.post("/", (req, res) => {

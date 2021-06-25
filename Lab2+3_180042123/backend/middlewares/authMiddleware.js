@@ -12,7 +12,7 @@ const alert = require('alert');
 
 const isLoggedIn = (req, res, next) => {
 
-    const user = localStorage.getItem("fullname");
+    const user = localStorage.getItem("username");
 
     if (user) {
         res.clearCookie('user');

@@ -42,7 +42,7 @@ const postRegister = async (req, res) => {
 
         try {
             await newUser.save();
-            localStorage.setItem('fullname', fullname);
+            localStorage.setItem('username', fullname);
             alert("Registration complete!");
             res.redirect('/login');
 
@@ -72,7 +72,7 @@ const postLogin = async (req, res) => {
         return res.redirect('/login');
     }
 
-    localStorage.setItem('fullname', user.fullname);
+    localStorage.setItem('username', user.fullname);
     return res.redirect('/dashboard');
 };
 
@@ -86,7 +86,7 @@ const getHomePage = (req, res) => {
 
 const logout = (req, res) => {
     res.clearCookie('user');
-    localStorage.removeItem("fullname");
+    localStorage.removeItem("username");
     res.redirect('/');
 };
 

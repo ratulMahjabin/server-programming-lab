@@ -1,26 +1,31 @@
+const bodyParser = require("body-parser");
 const express = require("express");
 const router = express.Router();
+const {
+    getDashboard,
+    getHomePage,
+    getLogin,
+    getRegister,
+    postLogin,
+    postRegister,
+} = require("../controllers/authController");
 
-router.get('/', (req, res) => {
-    res.sendFile("home.html", { root: "./views" });
-});
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
-router.get("/dashboard", (req, res) => {
-    res.sendFile("index.html", { root: "./views" });
-});
+router.get('/', getHomePage);
 
-router.get("/login", (req, res) => {
-    res.sendFile("login.html", { root: "./views" });
-});
+router.get('/dashboard', getDashboard);
 
-router.get("/register", (req, res) => {
-    res.sendFile("register.html", { root: "./views" });
-});
+router.get('/register', getLogin);
 
-router.post('/', (req, res) => {
+router.get('/register', getRegister);
+router.post("/", (req, res) => {
     res.send("<H1> Home page- post req </H1>");
 });
 
+router.post('/login', postLogin);
+router.post('/register', postRegister);
 router.use((req, res) => {
     res.send("Page doesn't exist!");
 });

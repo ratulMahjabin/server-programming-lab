@@ -33,7 +33,7 @@ const getDashboard = (req, res) => {
 };
 
 const getHomePage = (req, res) => {
-    res.sendFile("landing.html", { root: "./views" });
+    res.sendFile("home.html", { root: "./views" });
 };
 
 module.exports = { getDashboard, getHomePage, getLogin, getRegister, postLogin, postRegister };

@@ -10,11 +10,11 @@ router.get("/dashboard", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-    res.send("<H1>Login Page</H1>");
+    res.sendFile("login.html", { root: "./views" });
 });
 
 router.get("/register", (req, res) => {
-    res.send("<H1>Register Page</H1>");
+    res.sendFile("register.html", { root: "./views" });
 });
 
 router.post('/', (req, res) => {

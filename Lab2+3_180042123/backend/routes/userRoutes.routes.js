@@ -2,11 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send("<H1> Home page </H1>");
+    res.sendFile("home.html", { root: "./views" });
 });
 
 router.get("/dashboard", (req, res) => {
-    res.send("<H1>Dashboard</H1>");
+    res.sendFile("index.html", { root: "./views" });
 });
 
 router.get("/login", (req, res) => {

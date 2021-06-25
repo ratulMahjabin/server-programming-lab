@@ -1,7 +1,8 @@
 const userSchema = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const alert = require('alert');
-var LocalStorage = require("node-localstorage").LocalStorage;
+var LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 const getRegister = (req, res) => {
     res.sendFile("register.html", { root: "./views" });
 };
@@ -39,9 +40,16 @@ const postRegister = async (req, res) => {
             password: passwordEncrypted
         });
 
-        newUser.save()
-            .then(data => res.json(data))
-            .catch(err => res.json(err));
+        try {
+            await newUser.save();
+            localStorage.setItem('fullname', fullname);
+            alert("Registration complete!");
+            res.redirect('/login');
+
+        } catch (error) {
+            res.status(409).json({ message: error.message });
+        }
+
     }
 };
 

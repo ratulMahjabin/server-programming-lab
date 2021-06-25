@@ -25,7 +25,7 @@ const getLogin = (req, res) => {
 };
 
 const postLogin = (req, res) => {
-    res.send(req.body);
+    console.log(req.body);
 };
 
 const getDashboard = (req, res) => {

@@ -10,6 +10,8 @@ const {
     postRegister,
 } = require("../controllers/authController");
 
+const pageNotFound = require('../controllers/userController');
+
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
@@ -17,17 +19,10 @@ router.get('/', getHomePage);
 
 router.get('/dashboard', getDashboard);
 
-router.get('/login', getLogin);
+router.route('/login').get(getLogin).post(postLogin);
 
-router.get('/register', getRegister);
-router.post("/", (req, res) => {
-    res.send("<H1> Home page- post req </H1>");
-});
+router.route('/register').get(getRegister).post(postRegister);
 
-router.post('/login', postLogin);
-router.post('/register', postRegister);
-router.use((req, res) => {
-    res.send("Page doesn't exist!");
-});
+router.use(pageNotFound);
 
 module.exports = router;

@@ -18,8 +18,8 @@ router.use(bodyParser.json());
 
 router.get('/', getHomePage);
 
-router.get('/dashboard', getDashboard);
-router.use('/dashboard', isLoggedIn);
+//router.get('/dashboard', getDashboard);
+router.use('/dashboard', isLoggedIn, getDashboard);
 
 router.route('/login').get(getLogin).post(postLogin);
 

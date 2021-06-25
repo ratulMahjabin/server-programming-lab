@@ -1,15 +1,9 @@
 require("dotenv").config();
-const express = require('express');
 const app = require('./app');
 const mongoose = require('mongoose');
 const port = process.env.PORT;
+const connection_url = process.env.Database_token;
 
-
-
-app.listen(port, () => {
-    console.log(`server is running at port ${port}`);
-});
-
-mongoose.connect(process.env.Database_token, () => {
-    console.log("Database connected");
-}).catch((error) => console.log(error.message));
+mongoose.connect(connection_url, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => app.listen(port, () => console.log(`Mongodb connected and Server running on port: ${port}`)))
+    .catch((error) => console.log(error.message));

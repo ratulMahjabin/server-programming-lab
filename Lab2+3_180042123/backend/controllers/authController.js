@@ -62,16 +62,17 @@ const postLogin = async (req, res) => {
 
     const user = await userSchema.findOne({ email });
     if (!user) {
-        alert('Email not found')
-        return res.redirect('/login')
+        alert('Email not found');
+        return res.redirect('/login');
     }
 
     const checkPass = await bcrypt.compare(password, user.password);
     if (!checkPass) {
-        alert('Password incorrect')
+        alert('Password incorrect');
         return res.redirect('/login');
     }
 
+    localStorage.setItem('fullname', user.fullname);
     return res.redirect('/dashboard');
 };
 
@@ -83,4 +84,10 @@ const getHomePage = (req, res) => {
     res.sendFile("home.html", { root: "./views" });
 };
 
-module.exports = { getDashboard, getHomePage, getLogin, getRegister, postLogin, postRegister };
+const logout = (req, res) => {
+    res.clearCookie('user');
+    localStorage.removeItem("fullname");
+    res.redirect('/');
+};
+
+module.exports = { getDashboard, getHomePage, getLogin, getRegister, postLogin, postRegister, logout };

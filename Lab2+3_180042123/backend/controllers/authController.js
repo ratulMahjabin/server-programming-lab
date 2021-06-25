@@ -1,20 +1,48 @@
 const userSchema = require('../models/userModel');
-
+const bcrypt = require('bcrypt');
+const alert = require('alert');
+var LocalStorage = require("node-localstorage").LocalStorage;
 const getRegister = (req, res) => {
-    res.sendFile("register2.html", { root: "./views" });
+    res.sendFile("register.html", { root: "./views" });
 };
 
 const postRegister = async (req, res) => {
     const { fullname, email, password, confirmpass } = req.body;
+
     // new user json 
-    const newUser = { fullname: fullname, email: email, password: password };
-    console.log(newUser);
+    if (String(fullname).length == 0 || String(email).length == 0 || String(password).length == 0 || String(confirmpass).length == 0) {
+        alert('Require all field');
+        res.redirect('/register');
+    }
 
-    const regUser = new userSchema(newUser);
-    regUser.save()
-        .then(data => res.json(data))
-        .catch(error => res.json(error));
+    else {
+        const bool = await userSchema.findOne({ email });
+        if (bool) {
+            alert('Email already exist..try again');
+            return res.redirect('/register');
+        }
 
+        if (password.length < 8) {
+            alert('passworld length should be atleast 8');
+            return res.redirect('/register');
+        }
+
+        if (password == confirmpass) {
+            alert('password does not match');
+            return res.redirect('/register');
+        }
+
+        const passwordEncrypted = await bcrypt.hash(password, 10);
+        const newUser = new userSchema({
+            fullname: fullname,
+            email: email,
+            password: passwordEncrypted
+        });
+
+        newUser.save()
+            .then(data => res.json(data))
+            .catch(err => res.json(err));
+    }
 };
 
 const getLogin = (req, res) => {

@@ -3,7 +3,7 @@
   <div class="col-md-12 col-sm-12">
     <div class="x_panel">
       <div class="x_title">
-        <h2>Math Olympiad<small>Participants' List</small></h2>
+        <h2>MathOlympiad<small>Participants' List</small></h2>
         <ul class="nav navbar-right panel_toolbox">
           <li>
             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -33,18 +33,28 @@
               >
                 <thead>
                   <tr>
+                    <!-- <th>ID</th> -->
                     <th>Name</th>
                     <th>Category</th>
-                    <th>Contact No.</th>
+                    <th>
+                      Contact<br />
+                      No.
+                    </th>
                     <th>E-mail</th>
                     <th>Institute</th>
                     <th>T-Shirt</th>
                     <th>Total</th>
                     <th>Paid</th>
                     <th>Selected</th>
-                    <th>Payment Status</th>
+                    <th>
+                      Payment<br />
+                      Status
+                    </th>
                     <th>Select</th>
-                    <th>Payment Done</th>
+                    <th>
+                      Payment<br />
+                      Done
+                    </th>
                     <th>Edit</th>
                     <th>Delete</th>
                   </tr>
@@ -53,6 +63,8 @@
                   <%if(participants.length>0){
                   participants.forEach(participant=>{%>
                   <tr>
+                    <!-- <td><%=participant._id%></td> -->
+
                     <td><%=participant.name%></td>
                     <td><%=participant.category%></td>
                     <td><%=participant.contact%></td>

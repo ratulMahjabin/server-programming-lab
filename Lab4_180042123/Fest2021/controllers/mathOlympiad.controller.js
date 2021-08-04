@@ -1,11 +1,10 @@
 const MathOlympiad = require('../models/MathOlympiad.model')
 const getMO = (req, res) => {
-  res.render('math-olympiad/register.ejs')
+  res.render('math-olympiad/register.ejs', { error: req.flash('error') })
 }
 
 const postMO = (req, res) => {
   const { name, category, contact, email, institution, tshirt } = req.body
-  console.log(institution)
   let registrationFee = 0
   if (category == 'School') {
     registrationFee = 250
@@ -22,7 +21,6 @@ const postMO = (req, res) => {
   MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
     if (participant) {
       error = 'Participant with this name and contact already exists!'
-
       req.flash('error', error)
       res.redirect('/MathOlympiad/register')
     } else {
@@ -41,17 +39,16 @@ const postMO = (req, res) => {
         .save()
         .then(() => {
           error = 'Participant has been registered successfully!!'
-          console.log(error)
+          req.flash('error', error)
           res.redirect('/MathOlympiad/register')
         })
         .catch(() => {
           error = 'Unexpected error occured while registering!'
-          console.log(error)
+          req.flash('error', error)
           res.redirect('/MathOlympiad/register')
         })
     }
   })
-  //   res.render('math-olympiad/register.ejs')
 }
 
 const getMOList = (req, res) => {

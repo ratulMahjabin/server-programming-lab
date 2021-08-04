@@ -114,4 +114,76 @@ const paymentDoneMO = (req, res) => {
     })
 }
 
-module.exports = { getMO, postMO, getMOList, deleteMO, paymentDoneMO }
+const getEditMO = (req, res) => {
+  const id = req.params.id
+  // const tshirt=req.params.tshirt
+  //console.log('wd ', id, '  ')
+  let info = []
+  MathOlympiad.findOne({ _id: id })
+    .then((data) => {
+      info = data
+      // console.log("info ", info);
+      res.render('math-olympiad/edit-participant.ejs', {
+        error: req.flash('error'),
+        participant: info,
+      })
+    })
+    .catch((e) => {
+      console.log(e)
+      error = 'Failed to fetch participants'
+      res.render('math-olympiad/edit-participant.ejs', {
+        error: req.flash('error', error),
+        participant: info,
+      })
+    })
+}
+
+const postEditMO = async (req, res) => {
+  const { name, contact, category, email, institution, tshirt } = req.body
+
+  const data = await MathOlympiad.findOneAndUpdate(
+    { name: name, contact: contact },
+    { category, email, institution, tshirt },
+    { useFindAndModify: false }
+  )
+  if (data) {
+    res.redirect('/MathOlympiad/list')
+  }
+}
+
+const selectMO = (req, res) => {
+  const id = req.params.id
+
+  MathOlympiad.findOne({ _id: id })
+    .then((participant) => {
+      participant.selected = true
+      participant
+        .save()
+        .then(() => {
+          let error = 'Participant has been selected succesfully'
+          req.flash('error', error)
+          res.redirect('/MathOlympiad/list')
+        })
+        .catch(() => {
+          let error = 'Data could not be updated'
+          req.flash('error', error)
+          res.redirect('/MathOlympiad/list')
+        })
+    })
+    .catch(() => {
+      let error = 'Data could not be updated'
+      req.flash('error', error)
+      res.redirect('/MathOlympiad/list')
+    })
+}
+
+module.exports = {
+  getMO,
+  postMO,
+  getMOList,
+  deleteMO,
+  paymentDoneMO,
+  selectMO,
+  getEditMO,
+  postEditMO,
+}

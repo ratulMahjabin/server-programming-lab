@@ -155,4 +155,107 @@ const selectPC = (req, res) => {
     })
 }
 
-module.exports = { getPC, postPC, getPCList, paymentDonePC, selectPC }
+const getEditPC = (req, res) => {
+  const id = req.params.id
+
+  //console.log('wd ', id, '  ')
+  let info = []
+  ProgContest.findOne({ _id: id })
+    .then((data) => {
+      info = data
+
+      res.render('prog-contest/edit-team.ejs', {
+        error: req.flash('error'),
+        participant: info,
+      })
+    })
+    .catch((e) => {
+      console.log(e)
+      error = 'Failed to fetch participants'
+      res.render('prog-contest/edit-team.ejs', {
+        error: req.flash('error', error),
+        participant: info,
+      })
+    })
+}
+
+const postEditPC = async (req, res) => {
+  const {
+    teamName,
+    institute,
+    coachName,
+    coachContact,
+    coachEmail,
+    coachTshirt,
+    TLName,
+    TLContact,
+    TLEmail,
+    TLtshirt,
+    TM1Name,
+    TM1Contact,
+    TM1Email,
+    TM1tshirt,
+    TM2Name,
+    TM2Contact,
+    TM2Email,
+    TM2tshirt,
+  } = req.body
+
+  // console.log(
+  //   teamName,
+  //   institute,
+  //   coachName,
+  //   coachContact,
+  //   coachEmail,
+  //   coachTshirt,
+  //   TLName,
+  //   TLContact,
+  //   TLEmail,
+  //   TLtshirt,
+  //   TM1Name,
+  //   TM1Contact,
+  //   TM1Email,
+  //   TM1tshirt,
+  //   TM2Name,
+  //   TM2Contact,
+  //   TM2Email,
+  //   TM2tshirt
+  // )
+
+  const data = await ProgContest.findOneAndUpdate(
+    { teamName: teamName, institute: institute },
+    {
+      coachName,
+      coachContact,
+      coachEmail,
+      coachTshirt,
+      TLName,
+      TLContact,
+      TLEmail,
+      TLtshirt,
+      TM1Name,
+      TM1Contact,
+      TM1Email,
+      TM1tshirt,
+      TM2Name,
+      TM2Contact,
+      TM2Email,
+      TM2tshirt,
+    },
+    { useFindAndModify: false }
+  )
+  if (data) {
+    //console.log('findOneAndUpdate prog contest ', data)
+    res.redirect('/progContest/list')
+  }
+}
+
+module.exports = {
+  getPC,
+  postPC,
+  getPCList,
+  paymentDonePC,
+  selectPC,
+  getEditPC,
+  postEditPC,
+}

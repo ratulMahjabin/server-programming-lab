@@ -12,6 +12,8 @@ const {
   getPCList,
   paymentDonePC,
   selectPC,
+  getEditPC,
+  postEditPC,
 } = require('../controllers/progContest.controller')
 
 router.get('/register', ensureAuthenticated, addUserData, getPC)
@@ -20,5 +22,7 @@ router.post('/list', ensureAuthenticated, addUserData, getPCList)
 router.get('/list', ensureAuthenticated, addUserData, getPCList)
 router.get('/paymentDone/:id', ensureAuthenticated, addUserData, paymentDonePC)
 router.get('/select/:id', ensureAuthenticated, addUserData, selectPC)
+router.get('/edit-participant/:id', ensureAuthenticated, addUserData, getEditPC)
+router.post('/edit-participant', ensureAuthenticated, addUserData, postEditPC)
 
 module.exports = router

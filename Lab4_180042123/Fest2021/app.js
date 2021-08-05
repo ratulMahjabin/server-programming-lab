@@ -49,6 +49,5 @@ const PCRoutes = require('./routes/progContest.routes')
 app.use(indexRoutes)
 app.use('/users', userRoutes)
 app.use('/MathOlympiad', MORoutes)
-app.use('/MathOlympiad/Edit', express.static('Public'), MORoutes)
 app.use('/progContest', PCRoutes)
 module.exports = app

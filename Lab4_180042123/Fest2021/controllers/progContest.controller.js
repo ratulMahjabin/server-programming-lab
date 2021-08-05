@@ -129,4 +129,30 @@ const paymentDonePC = (req, res) => {
     })
 }
 
-module.exports = { getPC, postPC, getPCList, paymentDonePC }
+const selectPC = (req, res) => {
+  const id = req.params.id
+
+  ProgContest.findOne({ _id: id })
+    .then((participant) => {
+      participant.selected = true
+      participant
+        .save()
+        .then(() => {
+          let error = 'Participant has been selected succesfully'
+          req.flash('error', error)
+          res.redirect('/ProgContest/list')
+        })
+        .catch(() => {
+          let error = 'Data could not be updated'
+          req.flash('error', error)
+          res.redirect('/ProgContest/list')
+        })
+    })
+    .catch(() => {
+      let error = 'Data could not be updated'
+      req.flash('error', error)
+      res.redirect('/ProgContest/list')
+    })
+}
+
+module.exports = { getPC, postPC, getPCList, paymentDonePC, selectPC }

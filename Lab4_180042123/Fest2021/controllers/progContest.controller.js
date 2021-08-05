@@ -25,7 +25,7 @@ const postPC = (req, res) => {
     TM2Email,
     TM2tshirt,
   } = req.body
-  console.log(institute)
+  //console.log(teamName)
 
   const total = 800
   const paid = 0
@@ -82,4 +82,25 @@ const postPC = (req, res) => {
   )
 }
 
-module.exports = { getPC, postPC }
+const getPCList = (req, res) => {
+  let all_participant = []
+  let error = ''
+  ProgContest.find()
+    .then((data) => {
+      all_participant = data
+      res.render('prog-contest/list.ejs', {
+        error: req.flash('error'),
+        participants: all_participant,
+      })
+    })
+    .catch(() => {
+      error = 'Failed to fetch participants'
+      res.render('prog-contest/list.ejs', {
+        error: req.flash('error', error),
+        participants: all_participant,
+      })
+    })
+  // res.render("math-olympiad/list.ejs");
+}
+
+module.exports = { getPC, postPC, getPCList }

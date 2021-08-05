@@ -103,4 +103,30 @@ const getPCList = (req, res) => {
   // res.render("math-olympiad/list.ejs");
 }
 
-module.exports = { getPC, postPC, getPCList }
+const paymentDonePC = (req, res) => {
+  const id = req.params.id
+
+  ProgContest.findOne({ _id: id })
+    .then((participant) => {
+      participant.paid = participant.total
+      participant
+        .save()
+        .then(() => {
+          let error = 'Payment completed succesfully'
+          req.flash('error', error)
+          res.redirect('/ProgContest/list')
+        })
+        .catch(() => {
+          let error = 'Data could not be updated'
+          req.flash('error', error)
+          res.redirect('/ProgContest/list')
+        })
+    })
+    .catch(() => {
+      let error = 'Data could not be updated'
+      req.flash('error', error)
+      res.redirect('/ProgContest/list')
+    })
+}
+
+module.exports = { getPC, postPC, getPCList, paymentDonePC }

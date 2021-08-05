@@ -250,6 +250,24 @@ const postEditPC = async (req, res) => {
   }
 }
 
+const deletePC = (req, res) => {
+  const id = req.params.id
+  //console.log('id ', id)
+
+  let error = ''
+  ProgContest.deleteOne({ _id: req.params.id })
+    .then(() => {
+      error = ''
+      req.flash('error', error)
+      res.redirect('/progContest/list')
+    })
+    .catch(() => {
+      error = 'Failed to delete data!'
+      req.flash('error', error)
+      res.redirect('/progContest/list')
+    })
+}
+
 module.exports = {
   getPC,
   postPC,
@@ -258,4 +276,5 @@ module.exports = {
   selectPC,
   getEditPC,
   postEditPC,
+  deletePC,
 }

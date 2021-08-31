@@ -1,3 +1,13 @@
+const nodemailer = require('nodemailer')
+
+const transporter = nodemailer.createTransport({
+  service: 'hotmail',
+  auth: {
+    user: 'iutict2021@outlook.com',
+    pass: 'z+<=i=TX7M;W,2d',
+  },
+})
+
 const ProgContest = require('../models/ProgContest.model')
 
 const getPC = (req, res) => {
@@ -67,6 +77,26 @@ const postPC = (req, res) => {
           .then(() => {
             error =
               'Team for Programming Contest has been registered successfully!!'
+
+            const options = {
+              to: participant.TLEmail,
+              from: 'iutict2021@outlook.com',
+              subject: 'Registration is Successful!',
+              text:
+                'Dear ' +
+                participant.teamName +
+                ', \n' +
+                'Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful.',
+            }
+
+            transporter.sendMail(options, function (err, info) {
+              if (err) {
+                console.log(err)
+                return
+              }
+              console.log('Sent: ' + info.response)
+            })
+
             console.log('save ', error)
             req.flash('error', error)
             res.redirect('/progContest/register')
@@ -139,6 +169,26 @@ const selectPC = (req, res) => {
         .save()
         .then(() => {
           let error = 'Participant has been selected succesfully'
+
+          const options = {
+            to: participant.TLEmail,
+            from: 'iutict2021@outlook.com',
+            subject: 'You have been Selected!',
+            text:
+              'Dear ' +
+              participant.teamName +
+              ', \n' +
+              'Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021 is successful.',
+          }
+
+          transporter.sendMail(options, function (err, info) {
+            if (err) {
+              console.log(err)
+              return
+            }
+            console.log('Sent: ' + info.response)
+          })
+
           req.flash('error', error)
           res.redirect('/ProgContest/list')
         })

@@ -228,6 +228,73 @@ const selectMO = (req, res) => {
     })
 }
 
+const getVerifyMO = (req, res) => {
+  const id = req.params.id
+
+  let info = []
+  MathOlympiad.findOne({ _id: id })
+    .then((data) => {
+      info = data
+      // console.log('info ', info)
+      res.render('math-olympiad/verification.ejs', {
+        error: req.flash('error'),
+        participant: info,
+      })
+    })
+    .catch((e) => {
+      console.log(e)
+      error = 'Failed to fetch participants'
+      res.render('math-olympiad/verification.ejs', {
+        error: req.flash('error', error),
+        participant: info,
+      })
+    })
+}
+
+const postVerifyMO = (req, res) => {
+  const id = req.params.id
+  let error = ''
+
+  //console.log(id)
+
+  MathOlympiad.findOne({ _id: id }).then((participant) => {
+    if (participant) {
+      const { verification } = req.body
+      if (participant.confirmationCode == verification) {
+        participant.verified = true
+        participant
+          .save()
+          .then(() => {
+            error = 'Participant is verified successfully.'
+            req.flash('error', error)
+
+            console.log(error)
+            res.redirect('/MathOlympiad/list')
+          })
+          .catch(() => {
+            error = 'Unknown Error occured and participant was not verified.'
+            req.flash('error', error)
+
+            console.log(error)
+            res.redirect('/MathOlympiad/verify/:id')
+          })
+      } else {
+        error = 'Verification code doesnot match'
+        req.flash('error', 'Verification code doesnot match')
+
+        console.log(error)
+        res.redirect('back')
+      }
+    } else {
+      error = 'Unknown Error occured and Data was not Edited.'
+      req.flash('error', error)
+
+      console.log(error)
+      res.redirect('/MathOlympiad/list')
+    }
+  })
+}
+
 module.exports = {
   getMO,
   postMO,
@@ -237,4 +304,6 @@ module.exports = {
   selectMO,
   getEditMO,
   postEditMO,
+  getVerifyMO,
+  postVerifyMO,
 }

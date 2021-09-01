@@ -1,0 +1,83 @@
+<div class="right_col" role="main">
+  <div class="">
+    <div class="clearfix"></div>
+    <div class="row">
+      <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>
+              Math Olympiad&nbsp;<small>Edit verification's Information</small>
+            </h2>
+            <ul class="nav navbar-right panel_toolbox">
+              <li>
+                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+            </ul>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <br />
+
+            <% if (error.length>0) {%>
+            <div class="alert alert-danger"><%=error%></div>
+            <%}%> %> <% const verifyURL = "/MathOlympiad/verify/" +
+            participant._id %>
+            <form
+              method="POST"
+              action="<%= verifyURL %>"
+              id="demo-form2"
+              data-parsley-validate
+              class="form-horizontal form-label-left"
+            >
+              <div class="item form-group">
+                <label
+                  class="col-form-label col-md-3 col-sm-3 label-align"
+                  for="name"
+                  >Verification Status<span class="required"></span>
+                </label>
+                <div class="col-md-6 col-sm-6">
+                  <label class="col-form-label col-md-3 col-sm-6 label-align">
+                    <%if(participant.verified == true){%>
+                    <p style="color: cadetblue"><b>Yes</b></p>
+                    <%}else{%>
+                    <p style="color: brown"><b>No</b></p>
+                    <%}%><span class="required"></span
+                  ></label>
+                </div>
+              </div>
+              <br />
+              <div class="item form-group">
+                <label
+                  class="col-form-label col-md-3 col-sm-3 label-align"
+                  for="verification"
+                  >Verification Code<span class="required">*</span>
+                </label>
+                <div class="col-md-6 col-sm-6">
+                  <input
+                    type="text"
+                    id="verification"
+                    name="verification"
+                    required="required"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="ln_solid"></div>
+              <div class="item form-group">
+                <div class="col-md-6 col-sm-6 offset-md-3">
+                  <a href="/MathOlympiad/list" class="btn btn-dark btn-xs"
+                    >Cancel</a
+                  >
+                  <button type="submit" class="btn btn-success btn-xs">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

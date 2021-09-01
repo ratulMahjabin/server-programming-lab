@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+const crypto = require('crypto')
 
 const transporter = nodemailer.createTransport({
   service: 'hotmail',
@@ -40,6 +41,8 @@ const postPC = (req, res) => {
   const total = 800
   const paid = 0
   const selected = false
+  const confirmationCode = crypto.randomBytes(20).toString('hex')
+  const verified = false
   let error = ''
 
   ProgContest.findOne({ teamName: teamName, institute: institute }).then(
@@ -71,6 +74,8 @@ const postPC = (req, res) => {
           total,
           paid,
           selected,
+          confirmationCode: confirmationCode,
+          verified: verified,
         })
         participant
           .save()
@@ -82,11 +87,7 @@ const postPC = (req, res) => {
               to: participant.TLEmail,
               from: 'iutict2021@outlook.com',
               subject: 'Registration is Successful!',
-              text:
-                'Dear ' +
-                participant.teamName +
-                ', \n' +
-                'Congratulations! Your Registration to Math Olympiad in ICT Fest, 2021 is successful.',
+              text: `You have successfully registered to programming contest and your confirmation code is ${confirmationCode}`,
             }
 
             transporter.sendMail(options, function (err, info) {

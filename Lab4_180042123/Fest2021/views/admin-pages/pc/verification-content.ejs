@@ -6,7 +6,7 @@
         <div class="x_panel">
           <div class="x_title">
             <h2>
-              Programming contest &nbsp;<small
+              Programming Contest &nbsp;<small
                 >Edit verification's status</small
               >
             </h2>
@@ -23,8 +23,7 @@
 
             <% if (error.length>0) {%>
             <div class="alert alert-danger"><%=error%></div>
-            <%}%> %> <% const verifyURL = "/MathOlympiad/verify/" +
-            participant._id %>
+            <%}%> %> <% const verifyURL = "/progContest/verify/" + team._id %>
             <form
               method="POST"
               action="<%= verifyURL %>"
@@ -69,7 +68,7 @@
               <div class="ln_solid"></div>
               <div class="item form-group">
                 <div class="col-md-6 col-sm-6 offset-md-3">
-                  <a href="/MathOlympiad/list" class="btn btn-dark btn-xs"
+                  <a href="/progContest/list" class="btn btn-dark btn-xs"
                     >Cancel</a
                   >
                   <button type="submit" class="btn btn-success btn-xs">

@@ -47,6 +47,8 @@
                     <th>Payment<br />Done</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                    <th>Verified</th>
+                    <th>Verify</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,6 +142,27 @@
                         ><i class="fa fa-trash"></i
                         ><span class="fa fa-chevron"></span
                       ></a>
+                    </td>
+
+                    <td>
+                      <%if(participant.verified == true){%>
+                      <p style="color: cadetblue">Yes</p>
+                      <%}else{%>
+                      <p style="color: brown">No</p>
+                      <%}%>
+                    </td>
+                    <td>
+                      <% const verifyURL = "verify/" + participant._id %>
+                      <a
+                        href="<%= verifyURL %>"
+                        data-toggle="tooltip"
+                        title="Verify"
+                      >
+                        <i
+                          style="color: rgb(7, 180, 94)"
+                          class="glyphicon glyphicon-new-window"
+                        ></i>
+                      </a>
                     </td>
                   </tr>
                   <% }) }%>

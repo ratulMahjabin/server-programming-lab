@@ -17,6 +17,80 @@ const getMO = (req, res) => {
   res.render('math-olympiad/register.ejs', { error: req.flash('error') })
 }
 
+// const postMO = (req, res) => {
+//   const { name, category, contact, email, institution, tshirt } = req.body
+//   let registrationFee = 0
+//   if (category == 'School') {
+//     registrationFee = 250
+//   } else if (category == 'College') {
+//     registrationFee = 400
+//   } else {
+//     registrationFee = 500
+//   }
+//   const total = registrationFee
+//   const paid = 0
+//   const selected = false
+//   const HashValue = crypto.randomBytes(20).toString('hex')
+//   const ConfirmationCode = Math.floor(1000 + Math.random() * 9000)
+//   let error = ''
+//   const verified = false
+
+//   console.log(Password)
+
+//   MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
+//     if (participant) {
+//       error = 'Participant with this name and contact already exists!'
+//       req.flash('error', error)
+//       res.redirect('/MathOlympiad/register')
+//     } else {
+//       const participant = new MathOlympiad({
+//         name,
+//         category,
+//         contact,
+//         email,
+//         institution,
+//         paid,
+//         total,
+//         selected,
+//         tshirt,
+//         ConfirmationCode: ConfirmationCode,
+//         HashValue: HashValue,
+//         verified: verified,
+//       })
+
+//       participant
+//         .save()
+//         .then(() => {
+//           error = 'Participant has been registered successfully!!'
+
+//           const options = {
+//             to: email,
+//             from: Email,
+//             subject: 'Registration is Successful!',
+//             text: `Hello ${name},
+//             You have successfully registered to ${category} category and your confirmation code is ${ConfirmationCode}`,
+//           }
+
+//           transporter.sendMail(options, function (err, info) {
+//             if (err) {
+//               console.log(err)
+//               return
+//             }
+//             console.log('Sent: ' + info.response)
+//           })
+
+//           req.flash('error', error)
+//           res.redirect('/MathOlympiad/register')
+//         })
+//         .catch(() => {
+//           error = 'Unexpected error occured while registering!'
+//           req.flash('error', error)
+//           res.redirect('/MathOlympiad/register')
+//         })
+//     }
+//   })
+// }
+
 const postMO = (req, res) => {
   const { name, category, contact, email, institution, tshirt } = req.body
   let registrationFee = 0
@@ -30,7 +104,8 @@ const postMO = (req, res) => {
   const total = registrationFee
   const paid = 0
   const selected = false
-  const confirmationCode = crypto.randomBytes(20).toString('hex')
+  const confirmationCode = Math.floor(1000 + Math.random() * 9000)
+  const hashValue = crypto.randomBytes(20).toString('hex')
   let error = ''
   const verified = false
 
@@ -54,6 +129,7 @@ const postMO = (req, res) => {
         tshirt,
         confirmationCode: confirmationCode,
         verified: verified,
+        hashValue: hashValue,
       })
       participant
         .save()
@@ -79,7 +155,8 @@ const postMO = (req, res) => {
           req.flash('error', error)
           res.redirect('/MathOlympiad/register')
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err)
           error = 'Unexpected error occured while registering!'
           req.flash('error', error)
           res.redirect('/MathOlympiad/register')

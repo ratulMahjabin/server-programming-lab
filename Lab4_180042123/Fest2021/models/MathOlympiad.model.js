@@ -43,10 +43,14 @@ const mathOlympiadSchema = new mongoose.Schema({
   },
   confirmationCode: {
     type: String,
-    unique: true,
+    required: true,
   },
   verified: {
     type: Boolean,
+    required: true,
+  },
+  hashValue: {
+    type: String,
     required: true,
   },
 })

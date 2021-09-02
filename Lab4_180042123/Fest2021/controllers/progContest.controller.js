@@ -44,7 +44,8 @@ const postPC = (req, res) => {
   const total = 800
   const paid = 0
   const selected = false
-  const confirmationCode = crypto.randomBytes(20).toString('hex')
+  const hashValue = crypto.randomBytes(20).toString('hex')
+  const confirmationCode = Math.floor(1000 + Math.random() * 9000)
   const verified = false
   let error = ''
 
@@ -77,6 +78,7 @@ const postPC = (req, res) => {
           total,
           paid,
           selected,
+          hashValue: hashValue,
           confirmationCode: confirmationCode,
           verified: verified,
         })

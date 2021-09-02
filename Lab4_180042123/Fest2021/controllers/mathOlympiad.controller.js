@@ -1,5 +1,6 @@
-const nodemailer = require('nodemailer')
 const crypto = require('crypto')
+
+const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
   service: 'hotmail',
@@ -59,7 +60,8 @@ const postMO = (req, res) => {
             to: email,
             from: 'iutict2021@outlook.com',
             subject: 'Registration is Successful!',
-            text: `You have successfully registered to ${category} category and your confirmation code is ${confirmationCode}`,
+            text: `Heelo ${name},
+            You have successfully registered to ${category} category and your confirmation code is ${confirmationCode}`,
           }
 
           transporter.sendMail(options, function (err, info) {
@@ -279,8 +281,8 @@ const postVerifyMO = (req, res) => {
             res.redirect('/MathOlympiad/verify/:id')
           })
       } else {
-        error = 'Verification code doesnot match'
-        req.flash('error', 'Verification code doesnot match')
+        error = 'Verification code does not match'
+        req.flash('error', 'Verification code does not match')
 
         console.log(error)
         res.redirect('back')

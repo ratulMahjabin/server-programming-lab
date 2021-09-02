@@ -2,10 +2,10 @@ const nodemailer = require('nodemailer')
 const crypto = require('crypto')
 
 const transporter = nodemailer.createTransport({
-  service: 'hotmail',
+  service: 'gmail',
   auth: {
-    user: 'iutict2021@outlook.com',
-    pass: 'z+<=i=TX7M;W,2d',
+    user: 'iutictfest21@gmail.com',
+    pass: '@something2021',
   },
 })
 
@@ -83,19 +83,29 @@ const postPC = (req, res) => {
             error =
               'Team for Programming Contest has been registered successfully!!'
 
-            const options = {
-              to: participant.TLEmail,
-              from: 'iutict2021@outlook.com',
-              subject: 'Registration is Successful!',
-              text: `You have successfully registered to programming contest and your confirmation code is ${confirmationCode}`,
-            }
+            const emails = [
+              { email: coachEmail, name: coachName },
+              { email: TLEmail, name: TLName },
+              { email: TM1Email, name: TM1Name },
+              { email: TM2Email, name: TM2Name },
+            ]
 
-            transporter.sendMail(options, function (err, info) {
-              if (err) {
-                console.log(err)
-                return
+            emails.forEach((member) => {
+              const options = {
+                to: member.email,
+                from: 'iutict2021@outlook.com',
+                subject: 'Registration is Successful!',
+                text: `Hello ${member.name},
+                You have successfully registered to programming contest as Team ${teamName} and your confirmation code is ${confirmationCode}`,
               }
-              console.log('Sent: ' + info.response)
+
+              transporter.sendMail(options, function (err, info) {
+                if (err) {
+                  console.log(err)
+                  return
+                }
+                console.log('Sent: ' + info.response)
+              })
             })
 
             console.log('save ', error)

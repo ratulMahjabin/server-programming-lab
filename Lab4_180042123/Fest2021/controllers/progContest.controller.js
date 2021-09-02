@@ -1,11 +1,14 @@
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
+require('dotenv').config()
+const Email = process.env.Email
+const Password = process.env.Password
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'iutictfest21@gmail.com',
-    pass: '@something2021',
+    user: Email,
+    pass: Password,
   },
 })
 
@@ -93,7 +96,7 @@ const postPC = (req, res) => {
             emails.forEach((member) => {
               const options = {
                 to: member.email,
-                from: 'iutict2021@outlook.com',
+                from: Email,
                 subject: 'Registration is Successful!',
                 text: `Hello ${member.name},
                 You have successfully registered to programming contest as Team ${teamName} and your confirmation code is ${confirmationCode}`,

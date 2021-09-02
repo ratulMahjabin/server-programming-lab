@@ -1,12 +1,14 @@
 const crypto = require('crypto')
-
 const nodemailer = require('nodemailer')
+require('dotenv').config()
+const Email = process.env.Email
+const Password = process.env.Password
 
 const transporter = nodemailer.createTransport({
-  service: 'hotmail',
+  service: 'gmail',
   auth: {
-    user: 'iutict2021@outlook.com',
-    pass: 'z+<=i=TX7M;W,2d',
+    user: Email,
+    pass: Password,
   },
 })
 
@@ -31,6 +33,8 @@ const postMO = (req, res) => {
   const confirmationCode = crypto.randomBytes(20).toString('hex')
   let error = ''
   const verified = false
+
+  console.log(Password)
 
   MathOlympiad.findOne({ name: name, contact: contact }).then((participant) => {
     if (participant) {
@@ -58,7 +62,7 @@ const postMO = (req, res) => {
 
           const options = {
             to: email,
-            from: 'iutict2021@outlook.com',
+            from: Email,
             subject: 'Registration is Successful!',
             text: `Heelo ${name},
             You have successfully registered to ${category} category and your confirmation code is ${confirmationCode}`,

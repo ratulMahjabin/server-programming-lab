@@ -23,7 +23,8 @@
 
             <% if (error.length>0) {%>
             <div class="alert alert-danger"><%=error%></div>
-            <%}%> %> <% const verifyURL = "/progContest/verify/" + team._id %>
+            <%}%> %> <% const verifyURL = "/progContest/verify/" +
+            participant._id %>
             <form
               method="POST"
               action="<%= verifyURL %>"

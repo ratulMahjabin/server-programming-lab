@@ -117,7 +117,8 @@ const postPC = (req, res) => {
             req.flash('error', error)
             res.redirect('/progContest/register')
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log(err)
             error = 'Unexpected error'
             console.log('error ', error)
             req.flash('error', error)
@@ -188,13 +189,10 @@ const selectPC = (req, res) => {
 
           const options = {
             to: participant.TLEmail,
-            from: 'iutict2021@outlook.com',
+            from: Email,
             subject: 'You have been Selected!',
-            text:
-              'Dear ' +
-              participant.teamName +
-              ', \n' +
-              'Congratulations! Your have been selected for the Math Olympiad in ICT Fest, 2021 is successful.',
+            text: `Hello ${participant.TLName},
+                You have successfully registered to programming contest as Team ${participant.teamName}`,
           }
 
           transporter.sendMail(options, function (err, info) {
@@ -342,7 +340,7 @@ const getVerifyPC = (req, res) => {
     .then((data) => {
       info = data
       // console.log('info ', info)
-      res.render('math-olympiad/verification.ejs', {
+      res.render('prog-contest/verification.ejs', {
         error: req.flash('error'),
         participant: info,
       })
@@ -350,7 +348,7 @@ const getVerifyPC = (req, res) => {
     .catch((e) => {
       console.log(e)
       error = 'Failed to fetch participants'
-      res.render('math-olympiad/verification.ejs', {
+      res.render('prog-contest/verification.ejs', {
         error: req.flash('error', error),
         participant: info,
       })
@@ -371,21 +369,21 @@ const postVerifyPC = (req, res) => {
         participant
           .save()
           .then(() => {
-            error = 'Participant is verified successfully.'
+            error = 'Team is verified successfully.'
             req.flash('error', error)
 
             console.log(error)
-            res.redirect('/MathOlympiad/list')
+            res.redirect('/progContest/list')
           })
           .catch(() => {
             error = 'Unknown Error occured and participant was not verified.'
             req.flash('error', error)
 
             console.log(error)
-            res.redirect('/MathOlympiad/verify/:id')
+            res.redirect('/progContest/verify/:id')
           })
       } else {
-        error = 'Verification code doesnot match'
+        error = 'Verification code does not match'
         req.flash('error', 'Verification code doesnot match')
 
         console.log(error)
@@ -396,7 +394,7 @@ const postVerifyPC = (req, res) => {
       req.flash('error', error)
 
       console.log(error)
-      res.redirect('/MathOlympiad/list')
+      res.redirect('/progContest/list')
     }
   })
 }
